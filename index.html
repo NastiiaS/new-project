@@ -4,7 +4,130 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Weather forecast</title>
+    <link rel="stylesheet" href="src/styles.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/bd873e5e16.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
   </head>
-  <body></body>
+  <body>
+    <div class="weatherbody">
+      <form id="search-form">
+        <div class="form-group fg--search">
+          <input
+            type="text"
+            placeholder="Enter your city"
+            id="search-city-input"
+          />
+          <button type="submit"><i class="fa fa-search"></i></button>
+        </div>
+      </form>
+      <h1 id="city">Kyiv</h1>
+      <ul style="list-style: none">
+        <li id="dateMon">23 September</li>
+        <li id="time">17:39</li>
+        <li>
+          <span id="temperature">10</span>
+          °C
+        </li>
+      </ul>
+      <br />
+      <div class="row">
+        <div class="col-3">
+          <div class="card">
+            <div class="card-header">MONDAY</div>
+            <i class="fa-solid fa-cloud cloudy"></i>
+            <div class="card-body">
+              Most cloudy <br />
+              17°C
+            </div>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="card">
+            <div class="card-header">TUESDAY</div>
+            <i class="fa-solid fa-cloud-rain rainy"></i>
+            <div class="card-body">
+              Rain <br />
+              16°C
+            </div>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="card">
+            <div class="card-header">WEDNESDAY</div>
+            <i class="fa-solid fa-cloud-rain rainy"></i>
+            <div class="card-body">
+              Rain <br />
+              17°C
+            </div>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="card">
+            <div class="card-header">THURSDAY</div>
+            <i class="fa-solid fa-cloud-sun cloudsun"></i>
+            <div class="card-body">Partly Cloudy <br />17°C</div>
+          </div>
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-3">
+          <div class="card">
+            <div class="card-header">FRIDAY</div>
+            <i class="fa-solid fa-cloud-rain rainy"></i>
+            <div class="card-body">
+              Rain <br />
+              19°C
+            </div>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="card">
+            <div class="card-header">SATURDAY</div>
+            <i class="fa-solid fa-cloud-rain rainy"></i>
+            <div class="card-body">
+              Rain <br />
+              18°C
+            </div>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="card">
+            <div class="card-header">SUNDAY</div>
+            <i class="fa-solid fa-cloud-rain rainy"></i>
+            <div class="card-body">
+              Rain <br />
+              17°C
+            </div>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="card">
+            <div class="card-header">MONDAY</div>
+            <i class="fa-solid fa-cloud-rain rainy"></i>
+            <div class="card-body">
+              Rain <br />
+              16°C
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="src/index.js"></script>
+  </body>
 </html>
