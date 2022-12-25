@@ -29,6 +29,43 @@ let currentTime = document.querySelector("#time");
 currentDayMonth.innerHTML = ` ${date} ${month}`;
 currentTime.innerHTML = `${hours}:${minutes}`;
 
+function displayForecast(response) {
+  console.log(response.data.daily);
+  let forecastElement = document.querySelector("#forecast");
+  let forecastHTML = `<div class="row">`;
+  let days = ["Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu"];
+  days.forEach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      `
+        <div class="col-3">
+          <div class="card">
+            <div class="card-header">${day}</div>
+           <img
+              src="http://openweathermap.org/img/wn/04n@2x.png"
+              alt=""
+              width = "40"
+              class = "center"
+            />
+            <div class="card-body">
+              Most cloudy <br />
+              17°C
+            </div>
+          </div>
+        </div>
+        `;
+  });
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
+
+function getForecast(coordinates) {
+  console.log(coordinates);
+  let apiKey = "f3887e262c88d1158f7e2ef4998e234c";
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lon=${coordinates.lon}&lat=${coordinates.lat}&key=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayForecast);
+}
+
 function displayWeatherCondition(response) {
   let humidityElement = document.querySelector("#humidity");
   let windElement = document.querySelector("#wind");
