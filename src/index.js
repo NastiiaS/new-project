@@ -29,27 +29,44 @@ let currentTime = document.querySelector("#time");
 currentDayMonth.innerHTML = ` ${date} ${month}`;
 currentTime.innerHTML = `${hours}:${minutes}`;
 
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  return days[day];
+}
+
 function displayForecast(response) {
-  console.log(response.data.daily);
+  let forecast = response.data.daily;
+  console.log(response.data.condition);
   let forecastElement = document.querySelector("#forecast");
   let forecastHTML = `<div class="row">`;
-  let days = ["Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu"];
-  days.forEach(function (day) {
+  forecast.forEach(function (forecastDay) {
     forecastHTML =
       forecastHTML +
       `
         <div class="col-3">
           <div class="card">
-            <div class="card-header">${day}</div>
+            <div class="card-header">${formatDay(forecastDay.dt)}</div>
            <img
-              src="http://openweathermap.org/img/wn/04n@2x.png"
+              src="http://openweathermap.org/img/wn/${
+                forecastDay.weather[0].icon
+              }@2x.png"
               alt=""
               width = "40"
               class = "center"
             />
             <div class="card-body">
-              Most cloudy <br />
-              17°C
+             ${forecastDay.weather[0].description} <br />
+              ${Math.round(forecastDay.temp.day)}°C
             </div>
           </div>
         </div>
@@ -61,7 +78,7 @@ function displayForecast(response) {
 
 function getForecast(coordinates) {
   console.log(coordinates);
-  let apiKey = "f3887e262c88d1158f7e2ef4998e234c";
+  let apiKey = "1a747f2d7ac32a100bt13fab8776o6ca";
   let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lon=${coordinates.lon}&lat=${coordinates.lat}&key=${apiKey}&units=metric`;
   axios.get(apiUrl).then(displayForecast);
 }
@@ -88,9 +105,9 @@ function displayWeatherCondition(response) {
 
 function search(event) {
   event.preventDefault();
-  let apiKey = "fedaca8118b0cf269ccc3d2228739a0c";
+  let apiKey = "b4off8fa7b1370t4a837570a0d599e2b";
   let city = document.querySelector("#search-city-input").value;
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
   axios.get(apiUrl).then(displayWeatherCondition);
 }
 
