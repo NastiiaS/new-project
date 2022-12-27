@@ -46,70 +46,78 @@ function formatDay(timestamp) {
 
 function displayForecast(response) {
   let forecast = response.data.daily;
-  console.log(response.data.condition);
+  console.log(response);
   let forecastElement = document.querySelector("#forecast");
   let forecastHTML = `<div class="row">`;
-  forecast.forEach(function (forecastDay) {
-    forecastHTML =
-      forecastHTML +
-      `
-        <div class="col-3">
-          <div class="card">
-            <div class="card-header">${formatDay(forecastDay.dt)}</div>
+  forecast.forEach(function (forecastDay, index) {
+    if (index < 5) {
+      forecastHTML =
+        forecastHTML +
+        `
+        <div class="col-3" class = "center" style="max-width: 11rem;">
+          <div class="card"  >
+            <div class="card-header">${formatDay(forecastDay.time)} </div>
+          
            <img
-              src="http://openweathermap.org/img/wn/${
-                forecastDay.weather[0].icon
-              }@2x.png"
+              src="${forecastDay.condition.icon_url}"
               alt=""
               width = "40"
               class = "center"
             />
             <div class="card-body">
-             ${forecastDay.weather[0].description} <br />
-              ${Math.round(forecastDay.temp.day)}°C
+             ${forecastDay.condition.description} <br />
+              ${Math.round(forecastDay.temperature.day)}°C
             </div>
           </div>
         </div>
         `;
+    }
   });
   forecastHTML = forecastHTML + `</div>`;
   forecastElement.innerHTML = forecastHTML;
 }
 
 function getForecast(coordinates) {
-  console.log(coordinates);
-  let apiKey = "1a747f2d7ac32a100bt13fab8776o6ca";
-  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lon=${coordinates.lon}&lat=${coordinates.lat}&key=${apiKey}&units=metric`;
+  let apiKey = "bd79ao40tde3dec118ca46bc3e6dd55f";
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lon=${coordinates.longitude}&lat=${coordinates.latitude}&key=${apiKey}&units=metric`;
   axios.get(apiUrl).then(displayForecast);
 }
 
 function displayWeatherCondition(response) {
+  console.log(response.data);
   let humidityElement = document.querySelector("#humidity");
   let windElement = document.querySelector("#wind");
   let iconElement = document.querySelector("#icon");
   let descriptionElement = document.querySelector("#description");
-  humidityElement.innerHTML = response.data.main.humidity;
+  humidityElement.innerHTML = response.data.temperature.humidity;
   windElement.innerHTML = Math.round(response.data.wind.speed);
-  descriptionElement.innerHTML = response.data.weather[0].description;
-  document.querySelector("#city").innerHTML = response.data.name;
+  descriptionElement.innerHTML = response.data.condition.description;
+  document.querySelector("#city").innerHTML = response.data.city;
   document.querySelector("#temperature").innerHTML = Math.round(
-    response.data.main.temp
+    response.data.temperature.current
   );
-  iconElement.setAttribute(
-    "src",
-    `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
-  );
-  iconElement.setAttribute("alt", response.data.weather[0].description);
-  getForecast(response.data.coord);
+  iconElement.setAttribute("src", response.data.condition.icon_url);
+  iconElement.setAttribute("alt", response.data.condition.description);
+  getForecast(response.data.coordinates);
 }
 
-function search(event) {
-  event.preventDefault();
+function search(city) {
   let apiKey = "b4off8fa7b1370t4a837570a0d599e2b";
-  let city = document.querySelector("#search-city-input").value;
-  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
+
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
   axios.get(apiUrl).then(displayWeatherCondition);
+}
+
+function handleSubmit(event) {
+  event.preventDefault();
+  let cityInputElement = document.querySelector("#search-city-input");
+  search(cityInputElement.value);
 }
 
 let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", search);
+
+let form = document.querySelector("#search-form");
+form.addEventListener("submit", handleSubmit);
+
+search("Kyiv");
